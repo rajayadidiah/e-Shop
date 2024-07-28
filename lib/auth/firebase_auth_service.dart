@@ -1,20 +1,20 @@
-
-
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase/global/toast.dart';
 
-import '../../../global/common/toast.dart';
+
+
 
 
 class FirebaseAuthService {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<User?> signUpWithEmailAndPassword(String email, String password) async {
+  Future<User?> signUpWithEmailAndPassword(String name,String email, String password) async {
 
     try {
       UserCredential credential =await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      addUserDetails(name, email);
       return credential.user;
     } on FirebaseAuthException catch (e) {
 
@@ -26,6 +26,15 @@ class FirebaseAuthService {
     }
     return null;
 
+  }
+
+  Future addUserDetails( String name,String email) async{
+    await FirebaseFirestore.instance.collection('users').add(
+      {
+        'name' : name,
+        'email': email,
+      }
+    );
   }
 
   Future<User?> signInWithEmailAndPassword(String email, String password) async {
@@ -45,8 +54,13 @@ class FirebaseAuthService {
 
   }
 
-
-
+  Future<void> signOut() async{
+    try{
+    await _auth.signOut();
+    } on FirebaseAuthException catch (e) {
+      showToast(message: 'An error occurred: ${e.code}');
+  }
+  }
 
 }
 

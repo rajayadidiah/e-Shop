@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
 @override
   void initState() {
     Future.delayed(
-      Duration(seconds: 3),(){
+      Duration(seconds: 1),(){
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => widget.child!), (route) => false);
     }
     );
@@ -25,15 +25,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: Container(
+        color: Color(0xffF5F9FD),
+        child: 
+      Center(
         child: Text(
-          "Welcome To Flutter Firebase",
+          "e-Shop",
           style: TextStyle(
-            color: Colors.blue,
+            color: Color(0xff0C54BE),
             fontWeight: FontWeight.bold,
+            fontSize: 50,
+            fontFamily: "Poppins",
           ),
         ),
       ),
+    )
     );
   }
 }
